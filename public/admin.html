@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin.css">
+</head>
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="menu-toggle" id="menuToggle">
+        ☰
+    </button>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Logo / Brand -->
+        <div class="sidebar-header">
+            <h2>Inventory</h2>
+            <span>Admin Panel</span>
+        </div>
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+            <a href="/dashboard" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" id="productsLink">
+                <span class="nav-icon">📦</span>
+                <span>Products</span>
+            </a>
+            <a href="/categories" class="nav-item">
+                <span class="nav-icon">🏷️</span>
+                <span>Categories</span>
+            </a>
+            <a href="/suppliers" class="nav-item">
+                <span class="nav-icon">🚚</span>
+                <span>Suppliers</span>
+            </a>
+            <a href="/purchases" class="nav-item">
+                <span class="nav-icon">🛒</span>
+                <span>Purchases</span>
+            </a>
+            <a href="/sales" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>Sales</span>
+            </a>
+            <a href="/stock-history" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Stock History</span>
+            </a>
+            <a href="/reports" class="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Reports</span>
+            </a>
+            <a href="/users" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>User Management</span>
+            </a>
+        </nav>
+        <!-- Sidebar Footer -->
+        <div class="sidebar-footer">
+            <button class="logout-btn" id="logoutBtn">
+                <span>🚪</span>
+                Logout
+            </button>
+        </div>
+    </aside>
+    <!-- Main Content -->
+    <main class="main-content">
+    <!-- Top Header -->
+    <header class="top-header">
+        <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p id="pageSubtitle">Welcome back, Admin</p>
+        </div>
+        <!-- Admin Profile -->
+        <div class="admin-profile">
+            <div class="admin-avatar" id="adminAvatar">
+                A
+            </div>
+            <div class="admin-info">
+                <strong id="adminName">Loading...</strong>
+                <span>Administrator</span>
+            </div>
+        </div>
+    </header>
+    <!-- Dynamic Page Content -->
+    <section class="page-content" id="pageContent">
+        <!-- Dashboard Content -->
+        <div id="dashboardContent">
+            <div class="welcome-card">
+                <h2>Welcome Admin 👋</h2>
+                <p>
+                    Manage your products, suppliers, purchases, sales,
+                    stock and reports from the admin panel.
+                </p>
+            </div>
+        </div>
+
+        <div id="productsContent" style="display: none;">
+    <div class="page-heading">
+        <div>
+            <h2>Products</h2>
+            <p>Manage your inventory products</p>
+        </div>
+        <button
+            class="add-product-btn"
+            id="addProductBtn">
+            + Add Product
+        </button>
+    </div>
+    <div class="products-card">
+        <div class="table-wrapper">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product Name</th>
+                        <th>SKU</th>
+                        <th>Category</th>
+                        <th>Purchase Cost</th>
+                        <th>Selling Price</th>
+                        <th>Quantity</th>
+                        <th>Low Stock Level</th>
+                        <th>Stock Status</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                    <tr>
+                        <td colspan="9" class="loading-row">
+                            Loading products...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        </div>
+
+        <div class="product-modal" id="productModal">
+    <div class="product-modal-overlay" id="productModalOverlay"></div>
+    <div class="product-modal-box">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <div>
+                <h2>Add Product</h2>
+                <p>Enter product details below</p>
+            </div>
+            <button
+                type="button"
+                class="modal-close"
+                id="closeProductModal">
+                &times;
+            </button>
+        </div>
+        <!-- Product Form -->
+        <form id="addProductForm">
+            <!-- Product Name -->
+            <div class="form-group">
+                <label for="productName">
+                    Product Name
+                </label>
+                <input
+                    type="text"
+                    id="productName"
+                    name="productName"
+                    placeholder="Enter product name"
+                    required
+                >
+            </div>
+            <!-- SKU -->
+            <div class="form-group">
+                <label for="productSKU">
+                    SKU
+                </label>
+                <input
+                    type="text"
+                    id="productSKU"
+                    name="sku"
+                    placeholder="Enter SKU"
+                    required
+                >
+            </div>
+            <!-- Category -->
+            <div class="form-group">
+                <label for="productCategory">
+                    Category
+                </label>
+                <select
+                    id="productCategory"
+                    name="category"
+                    required>
+                    <option value="">
+                        Select Category
+                    </option>
+                    <option value="electronics">
+                        Electronics
+                    </option>
+                    <option value="accessories">
+                        Accessories
+                    </option>
+                    <option value="office supplies">
+                        Office Supplies
+                    </option>
+                    <option value="networking">
+                        Networking
+                    </option>
+                </select>
+            </div>
+            <!-- Purchase Cost -->
+            <div class="form-group">
+                <label for="purchaseCost">
+                    Purchase Cost
+                </label>
+                <input
+                    type="number"
+                    id="purchaseCost"
+                    name="purchaseCost"
+                    placeholder="Enter purchase cost"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+            </div>
+            <!-- Selling Price -->
+            <div class="form-group">
+                <label for="sellingPrice">
+                    Selling Price
+                </label>
+                <input
+                    type="number"
+                    id="sellingPrice"
+                    name="sellingPrice"
+                    placeholder="Enter selling price"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+            </div>
+            <!-- Quantity -->
+            <div class="form-group">
+                <label for="productQuantity">
+                    Quantity
+                </label>
+                <input
+                    type="number"
+                    id="productQuantity"
+                    name="quantity"
+                    placeholder="Enter quantity"
+                    min="0"
+                    step="1"
+                    required
+                >
+            </div>
+            <!-- Minimum Low Stock Level -->
+            <div class="form-group">
+                <label for="lowStockLevel">
+                    Minimum Low Stock Level
+                </label>
+                <input
+                    type="number"
+                    id="lowStockLevel"
+                    name="lowStockLevel"
+                    placeholder="Example: 10"
+                    min="0"
+                    step="1"
+                    required
+                >
+            </div>
+            <!-- Buttons -->
+            <div class="modal-actions">
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelProductBtn">
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    class="save-product-btn">
+                    Add Product
+                </button>
+            </div>
+        </form>
+    </div>
+        </div>
+    </section>
+    </main>
+<script src="/js/admin.js"></script>
+</body>
+</html>
