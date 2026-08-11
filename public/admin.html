@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" type="text/css" href="/css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <!-- Mobile Menu Button -->
@@ -28,33 +29,27 @@
                 <span class="nav-icon">📦</span>
                 <span>Products</span>
             </a>
-            <a href="/categories" class="nav-item">
-                <span class="nav-icon">🏷️</span>
+            <a href="#" class="nav-item" id="categoriesLink">
+                <span class="nav-icon">📂</span>
                 <span>Categories</span>
             </a>
-            <a href="/suppliers" class="nav-item">
+            <a href="#" class="nav-item" id="suppliersLink">
                 <span class="nav-icon">🚚</span>
                 <span>Suppliers</span>
             </a>
-            <a href="/purchases" class="nav-item">
+            </a>
+            <a href="#" class="nav-item" id="purchasesLink">
                 <span class="nav-icon">🛒</span>
                 <span>Purchases</span>
             </a>
-            <a href="/sales" class="nav-item">
+            </a>
+            <a href="#" class="nav-item" id="salesLink">
                 <span class="nav-icon">💰</span>
                 <span>Sales</span>
             </a>
-            <a href="/stock-history" class="nav-item">
-                <span class="nav-icon">📋</span>
+            <a href="#" class="nav-item" id="stockHistoryLink">
+                <span class="nav-icon">📊</span>
                 <span>Stock History</span>
-            </a>
-            <a href="/reports" class="nav-item">
-                <span class="nav-icon">📈</span>
-                <span>Reports</span>
-            </a>
-            <a href="/users" class="nav-item">
-                <span class="nav-icon">👥</span>
-                <span>User Management</span>
             </a>
         </nav>
         <!-- Sidebar Footer -->
@@ -88,15 +83,209 @@
     <section class="page-content" id="pageContent">
         <!-- Dashboard Content -->
         <div id="dashboardContent">
-            <div class="welcome-card">
-                <h2>Welcome Admin 👋</h2>
+    <!-- Dashboard Heading -->
+    <div class="page-heading">
+        <div>
+            <h2>Dashboard</h2>
+            <p>Inventory overview and business analytics</p>
+        </div>
+    </div>
+    <!-- ================================= -->
+    <!-- SUMMARY CARDS -->
+    <!-- ================================= -->
+    <div class="dashboard-stats">
+        <!-- Total Products -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                📦
+            </div>
+            <div>
+                <span>Total Products</span>
+                <strong id="dashboardTotalProducts">
+                    0
+                </strong>
+            </div>
+        </div>
+        <!-- Total Sales -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                🛒
+            </div>
+            <div>
+                <span>Total Sales</span>
+                <strong id="dashboardTotalSales">
+                    0
+                </strong>
+            </div>
+        </div>
+        <!-- Revenue -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                💰
+            </div>
+            <div>
+                <span>Total Revenue</span>
+                <strong id="dashboardRevenue">
+                    ₹0
+                </strong>
+            </div>
+        </div>
+        <!-- Purchase Cost -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                💸
+            </div>
+            <div>
+                <span>Purchase Cost</span>
+                <strong id="dashboardPurchaseCost">
+                    ₹0
+                </strong>
+            </div>
+        </div>
+        <!-- Profit -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                📈
+            </div>
+            <div>
+                <span>Profit</span>
+                <strong id="dashboardProfit">
+                    ₹0
+                </strong>
+            </div>
+        </div>
+        <!-- Loss -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                📉
+            </div>
+            <div>
+                <span>Loss</span>
+                <strong id="dashboardLoss">
+                    ₹0
+                </strong>
+            </div>
+        </div>
+        <!-- Current Stock -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                🏷️
+            </div>
+            <div>
+                <span>Current Stock</span>
+                <strong id="dashboardCurrentStock">
+                    0
+                </strong>
+            </div>
+        </div>
+        <!-- Low Stock -->
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                ⚠️
+            </div>
+            <div>
+                <span>Low Stock</span>
+                <strong id="dashboardLowStock">
+                    0
+                </strong>
+            </div>
+        </div>
+    </div>
+    <!-- ================================= -->
+    <!-- SALES & REVENUE CHART -->
+    <!-- ================================= -->
+    <div class="dashboard-chart-card">
+        <div class="dashboard-section-heading">
+            <div>
+                <h3>Sales & Revenue</h3>
                 <p>
-                    Manage your products, suppliers, purchases, sales,
-                    stock and reports from the admin panel.
+                    Monthly sales performance
                 </p>
             </div>
         </div>
-
+        <div class="chart-container">
+            <canvas id="salesRevenueChart"></canvas>
+        </div>
+    </div>
+    <!-- ================================= -->
+    <!-- CATEGORY + TOP PRODUCTS -->
+    <!-- ================================= -->
+    <div class="dashboard-grid">
+        <!-- Sales By Category -->
+        <div class="dashboard-chart-card">
+            <div class="dashboard-section-heading">
+                <div>
+                    <h3>Sales by Category</h3>
+                    <p>
+                        Category-wise sales
+                    </p>
+                </div>
+            </div>
+            <div class="chart-container small-chart">
+                <canvas
+                    id="categorySalesChart">
+                </canvas>
+            </div>
+        </div>
+        <!-- Top Selling Products -->
+        <div class="dashboard-chart-card">
+            <div class="dashboard-section-heading">
+                <div>
+                    <h3>Top Selling Products</h3>
+                    <p>
+                        Best performing products
+                    </p>
+                </div>
+            </div>
+            <div class="chart-container small-chart">
+                <canvas
+                    id="topProductsChart">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <!-- ================================= -->
+    <!-- LOW STOCK + RECENT SALES -->
+    <!-- ================================= -->
+    <div class="dashboard-grid">
+        <!-- Low Stock Products -->
+        <div class="dashboard-chart-card">
+            <div class="dashboard-section-heading">
+                <div>
+                    <h3>Low Stock Products</h3>
+                    <p>
+                        Products requiring attention
+                    </p>
+                </div>
+            </div>
+            <div
+                class="dashboard-list"
+                id="lowStockProducts">
+                <p class="dashboard-loading">
+                    Loading...
+                </p>
+            </div>
+        </div>
+        <!-- Recent Sales -->
+        <div class="dashboard-chart-card">
+            <div class="dashboard-section-heading">
+                <div>
+                    <h3>Recent Sales</h3>
+                    <p>
+                        Latest sales transactions
+                    </p>
+                </div>
+            </div>
+            <div
+                class="dashboard-list"
+                id="recentSales">
+                <p class="dashboard-loading">
+                    Loading...
+                </p>
+            </div>
+        </div>
+    </div>
+        </div>
         <div id="productsContent" style="display: none;">
     <div class="page-heading">
         <div>
@@ -136,7 +325,214 @@
         </div>
     </div>
         </div>
-
+        <!-- Categories Content -->
+        <div id="categoriesContent" style="display: none;">
+    <div class="page-heading">
+        <div>
+            <h2>Categories</h2>
+            <p>Manage your product categories</p>
+        </div>
+        <button
+            class="add-product-btn"
+            id="addCategoryBtn">
+            + Add Category
+        </button>
+    </div>
+    <div class="products-card">
+        <div class="table-wrapper">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category Name</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody id="categoriesTableBody">
+                    <tr>
+                        <td colspan="3" class="loading-row">
+                            Loading categories...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        </div>
+        <!-- Suppliers Content -->
+        <div id="suppliersContent" style="display: none;">
+    <div class="page-heading">
+        <div>
+            <h2>Suppliers</h2>
+            <p>Manage your product suppliers</p>
+        </div>
+        <button
+            class="add-product-btn"
+            id="addSupplierBtn">
+            + Add Supplier
+        </button>
+    </div>
+    <div class="products-card">
+        <div class="table-wrapper">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Supplier Name</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody id="suppliersTableBody">
+                    <tr>
+                        <td
+                            colspan="5"
+                            class="loading-row">
+                            Loading suppliers...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        </div>
+        <!-- Purchases Content -->
+        <div id="purchasesContent" style="display: none;">
+    <div class="page-heading">
+        <div>
+            <h2>Purchases</h2>
+            <p>Manage your product purchases</p>
+        </div>
+        <button
+            class="add-product-btn"
+            id="newPurchaseBtn">
+            + New Purchase
+        </button>
+    </div>
+    <div class="products-card">
+        <div class="table-wrapper">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Supplier</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Cost / Unit</th>
+                        <th>Total Cost</th>
+                        <th>Purchase Date</th>
+                    </tr>
+                </thead>
+                <tbody id="purchasesTableBody">
+                    <tr>
+                        <td
+                            colspan="7"
+                            class="loading-row">
+                            Loading purchases...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        </div>
+        <!-- Sales Content -->
+        <div id="salesContent" style="display: none;">
+    <div class="page-heading">
+        <div>
+            <h2>Sales</h2>
+            <p>Manage your product sales</p>
+        </div>
+        <button
+            class="add-product-btn"
+            id="newSaleBtn">
+            + New Sale
+        </button>
+    </div>
+    <div class="products-card">
+        <div class="table-wrapper">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price / Unit</th>
+                        <th>Final Price</th>
+                        <th>Sale Date</th>
+                    </tr>
+                </thead>
+                <tbody id="salesTableBody">
+                    <tr>
+                        <td
+                            colspan="7"
+                            class="loading-row">
+                            Loading sales...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        </div>
+        <!-- Stock History Content -->
+        <div id="stockHistoryContent" style="display: none;">
+    <div class="page-heading">
+        <div>
+            <h2>Stock History</h2>
+            <p>Track product sales movement</p>
+        </div>
+    </div>
+    <!-- Summary Cards -->
+    <div class="history-summary">
+    <div class="history-card">
+        <span>High Selling Products</span>
+        <strong id="increasedProducts">
+            0
+        </strong>
+    </div>
+    <div class="history-card">
+        <span>Low Selling Products</span>
+        <strong id="decreasedProducts">
+            0
+        </strong>
+    </div>
+    <div class="history-card">
+        <span>No Sales</span>
+        <strong id="noSalesProducts">
+            0
+        </strong>
+    </div>
+    </div>
+    <!-- History Table -->
+    <div class="products-card">
+        <div class="table-wrapper">
+            <table class="products-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Current Stock</th>
+                    <th>Total Sold</th>
+                    <th>Transactions</th>
+                    <th>Total Revenue</th>
+                    <th>Sales Analysis</th>
+                </tr>
+            </thead>
+                <tbody id="stockHistoryTableBody">
+                    <tr>
+                        <td
+                            colspan="6"
+                            class="loading-row">
+                            Loading stock history...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        </div>
         <div class="product-modal" id="productModal">
     <div class="product-modal-overlay" id="productModalOverlay"></div>
     <div class="product-modal-box">
@@ -186,24 +582,9 @@
                 <label for="productCategory">
                     Category
                 </label>
-                <select
-                    id="productCategory"
-                    name="category"
-                    required>
+                <select id="productCategory" name="category" required>
                     <option value="">
-                        Select Category
-                    </option>
-                    <option value="electronics">
-                        Electronics
-                    </option>
-                    <option value="accessories">
-                        Accessories
-                    </option>
-                    <option value="office supplies">
-                        Office Supplies
-                    </option>
-                    <option value="networking">
-                        Networking
+                        Loading categories...
                     </option>
                 </select>
             </div>
@@ -279,6 +660,374 @@
                     type="submit"
                     class="save-product-btn">
                     Add Product
+                </button>
+            </div>
+        </form>
+    </div>
+        </div>
+        <!-- Category Modal -->
+        <div class="product-modal" id="categoryModal">
+    <div
+        class="product-modal-overlay"
+        id="categoryModalOverlay">
+    </div>
+    <div class="product-modal-box">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <div>
+                <h2>Add Category</h2>
+                <p>Enter category details below</p>
+            </div>
+            <button
+                type="button"
+                class="modal-close"
+                id="closeCategoryModal">
+                &times;
+            </button>
+        </div>
+        <!-- Category Form -->
+        <form id="addCategoryForm">
+            <!-- Category Name -->
+            <div class="form-group">
+                <label for="categoryName">
+                    Category Name
+                </label>
+                <input
+                    type="text"
+                    id="categoryName"
+                    name="name"
+                    placeholder="Enter category name"
+                    required
+                >
+            </div>
+            <!-- Description -->
+            <div class="form-group">
+                <label for="categoryDescription">
+                    Description
+                </label>
+                <textarea
+                    id="categoryDescription"
+                    name="description"
+                    placeholder="Enter category description"
+                    rows="4"
+                    required
+                ></textarea>
+            </div>
+            <!-- Buttons -->
+            <div class="modal-actions">
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelCategoryBtn">
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    class="save-product-btn">
+                    Add Category
+                </button>
+            </div>
+        </form>
+    </div>
+        </div>
+        <!-- Supplier Modal -->
+        <div class="product-modal" id="supplierModal">
+    <div
+        class="product-modal-overlay"
+        id="supplierModalOverlay">
+    </div>
+    <div class="product-modal-box">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <div>
+                <h2>Add Supplier</h2>
+                <p>Enter supplier details below</p>
+            </div>
+            <button
+                type="button"
+                class="modal-close"
+                id="closeSupplierModal">
+                &times;
+            </button>
+        </div>
+        <!-- Supplier Form -->
+        <form id="addSupplierForm">
+            <!-- Supplier Name -->
+            <div class="form-group">
+                <label for="supplierName">
+                    Supplier Name
+                </label>
+                <input
+                    type="text"
+                    id="supplierName"
+                    name="name"
+                    placeholder="Enter supplier name"
+                    required
+                >
+            </div>
+            <!-- Supplier Contact -->
+            <div class="form-group">
+                <label for="supplierContact">
+                    Supplier Contact
+                </label>
+                <input
+                    type="tel"
+                    id="supplierContact"
+                    name="contact"
+                    placeholder="Enter supplier contact"
+                    required
+                >
+            </div>
+            <!-- Supplier Email -->
+            <div class="form-group">
+                <label for="supplierEmail">
+                    Supplier Email
+                </label>
+                <input
+                    type="email"
+                    id="supplierEmail"
+                    name="email"
+                    placeholder="Enter supplier email"
+                    required
+                >
+            </div>
+            <!-- Supplier Address -->
+            <div class="form-group">
+                <label for="supplierAddress">
+                    Supplier Address
+                </label>
+                <textarea
+                    id="supplierAddress"
+                    name="address"
+                    placeholder="Enter supplier address"
+                    rows="4"
+                    required
+                ></textarea>
+            </div>
+            <!-- Buttons -->
+            <div class="modal-actions">
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelSupplierBtn">
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    class="save-product-btn">
+                    Add Supplier
+                </button>
+            </div>
+        </form>
+    </div>
+        </div>
+        <!-- Purchase Modal -->
+        <div class="product-modal" id="purchaseModal">
+    <div
+        class="product-modal-overlay"
+        id="purchaseModalOverlay">
+    </div>
+    <div class="product-modal-box">
+        <!-- Header -->
+        <div class="modal-header">
+            <div>
+                <h2>New Purchase</h2>
+                <p>Enter purchase details below</p>
+            </div>
+            <button
+                type="button"
+                class="modal-close"
+                id="closePurchaseModal">
+                &times;
+            </button>
+        </div>
+        <!-- Purchase Form -->
+        <form id="addPurchaseForm">
+            <!-- Supplier -->
+            <div class="form-group">
+                <label for="purchaseSupplier">
+                    Select Supplier
+                </label>
+                <select
+                    id="purchaseSupplier"
+                    name="supplierId"
+                    required>
+                    <option value="">
+                        Loading suppliers...
+                    </option>
+                </select>
+            </div>
+            <!-- Product -->
+            <div class="form-group">
+                <label for="purchaseProduct">
+                    Product
+                </label>
+                <select
+                    id="purchaseProduct"
+                    name="productId"
+                    required>
+                    <option value="">
+                        Loading products...
+                    </option>
+                </select>
+            </div>
+            <!-- Quantity -->
+            <div class="form-group">
+                <label for="purchaseQuantity">
+                    Quantity
+                </label>
+                <input
+                    type="number"
+                    id="purchaseQuantity"
+                    name="quantity"
+                    placeholder="Enter quantity"
+                    min="1"
+                    step="1"
+                    required>
+            </div>
+            <!-- Cost Per Unit -->
+            <div class="form-group">
+                <label for="purchaseCostPerUnit">
+                    Cost Per Unit
+                </label>
+                <input
+                    type="number"
+                    id="purchaseCostPerUnit"
+                    name="costPerUnit"
+                    placeholder="Automatically calculated"
+                    min="0"
+                    step="0.01"
+                    readonly>
+            </div>
+            <!-- Total Cost -->
+            <div class="form-group">
+                <label for="purchaseTotalCost">
+                    Total Cost
+                </label>
+                <input
+                    type="number"
+                    id="purchaseTotalCost"
+                    name="totalCost"
+                    placeholder="Total purchase cost"
+                    readonly>
+            </div>
+            <!-- Buttons -->
+            <div class="modal-actions">
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelPurchaseBtn">
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    class="save-product-btn">
+                    Save Purchase
+                </button>
+            </div>
+        </form>
+    </div>
+        </div>
+        <!-- Sale Modal -->
+        <div class="product-modal" id="saleModal">
+    <div
+        class="product-modal-overlay"
+        id="saleModalOverlay">
+    </div>
+    <div class="product-modal-box">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <div>
+                <h2>New Sale</h2>
+                <p>Enter sale details below</p>
+            </div>
+            <button
+                type="button"
+                class="modal-close"
+                id="closeSaleModal">
+                &times;
+            </button>
+        </div>
+        <!-- Sale Form -->
+        <form id="addSaleForm">
+            <!-- Customer -->
+            <div class="form-group">
+                <label for="saleCustomer">
+                    Customer
+                </label>
+                <input
+                    type="text"
+                    id="saleCustomer"
+                    name="customer"
+                    placeholder="Enter customer name"
+                    required>
+            </div>
+            <!-- Product -->
+            <div class="form-group">
+                <label for="saleProduct">
+                    Product
+                </label>
+                <select
+                    id="saleProduct"
+                    name="productId"
+                    required>
+                    <option value="">
+                        Loading products...
+                    </option>
+                </select>
+            </div>
+            <!-- Quantity -->
+            <div class="form-group">
+                <label for="saleQuantity">
+                    Quantity
+                </label>
+                <input
+                    type="number"
+                    id="saleQuantity"
+                    name="quantity"
+                    placeholder="Enter quantity"
+                    min="1"
+                    step="1"
+                    required>
+            </div>
+            <!-- Price -->
+            <div class="form-group">
+                <label for="salePrice">
+                    Price Per Unit
+                </label>
+                <input
+                    type="number"
+                    id="salePrice"
+                    name="price"
+                    placeholder="Automatically fetched"
+                    min="0"
+                    step="0.01"
+                    readonly>
+            </div>
+            <!-- Final Price -->
+            <div class="form-group">
+                <label for="saleFinalPrice">
+                    Final Price
+                </label>
+                <input
+                    type="number"
+                    id="saleFinalPrice"
+                    name="finalPrice"
+                    placeholder="Final sale amount"
+                    readonly>
+            </div>
+            <!-- Buttons -->
+            <div class="modal-actions">
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelSaleBtn">
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    class="save-product-btn">
+                    Save Sale
                 </button>
             </div>
         </form>
